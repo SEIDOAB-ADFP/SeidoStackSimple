@@ -1,0 +1,20 @@
+//launch-docker-all
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AppWorker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/0.App.AppWorker/bin/Debug/net9.0/AppWorker.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/0.App.AppWorker",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        }
+    ]
+}

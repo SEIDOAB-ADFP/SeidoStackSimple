@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="0.App.AppWorker\AppWorker.csproj" />
+  <Project Path="1.Domain.Services\Services.csproj" />
+  <Project Path="2.Domain.Models\Models.csproj" />
+  <Project Path="4b.CrossCut.Configuration\Configuration.csproj" />
+  <Project Path="4a.CrossCut.Security\Security.csproj" />
+</Solution>
