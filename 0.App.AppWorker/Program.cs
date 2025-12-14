@@ -4,9 +4,14 @@ using Security.Extensions;
 using Services.Seeder;
 using AppWorker.Mocking;
 using AppWorker.Workers;
+using AppWorker.Obfuscation;
 using Services.Music.Interfaces;
 using Services.Music;
 using Services.Employees;
+using Services.Encryptions;
+using Models.Employees.Interfaces;
+using Models.Employees;
+using System.Text.RegularExpressions;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();
@@ -18,6 +23,12 @@ builder.Services.AddEnvironmentInfo();
 
 builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 builder.Services.AddSeeder().MockMusic().MockLatin().MockQuote().MockEmployee();
+
+builder.Services.AddTransient<EncryptionService>(); //to be replaced by the extension method
+//Example of adding obfuscation for Employee model
+//builder.Services.AddEncryptionService().ObfuscateEmployee();
+
+
 
 builder.Services.AddTransient<IMusicGroupsService, MusicGroupsServiceWapi>();
 builder.Services.AddTransient<IAlbumsService, AlbumsServiceWapi>();

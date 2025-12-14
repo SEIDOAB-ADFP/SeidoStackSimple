@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Configuration;
 using Models.Employees.Interfaces;

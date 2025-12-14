@@ -30,5 +30,4 @@ public class SeederService
         }
         throw new KeyNotFoundException($"No mocker found for type {typeof(TInterface).FullName}");
     }
-
 }

@@ -24,6 +24,6 @@ public class Employee:IEmployee
         LastName = original.LastName;
         HireDate = original.HireDate;
         Role = original.Role;
-        CreditCards = original.CreditCards.Select(cc => new CreditCard(cc)).Cast<ICreditCard>().ToList();
+        CreditCards = original.CreditCards.Select(cc => new CreditCard(cc)).ToList<ICreditCard>();
     }
 }

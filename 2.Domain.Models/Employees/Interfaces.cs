@@ -1,6 +1,6 @@
 namespace Models.Employees.Interfaces;
 
-public enum WorkRole {AnimalCare, Veterinarian, ProgramCoordinator, Maintenance, Management}
+public enum WorkRole {Undefined, AnimalCare, Veterinarian, ProgramCoordinator, Maintenance, Management}
 
 public interface IEmployee
 {
