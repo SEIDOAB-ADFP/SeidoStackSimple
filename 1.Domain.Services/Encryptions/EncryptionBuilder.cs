@@ -17,7 +17,21 @@ public class EncryptionBuilder
     {
         _services = services;
         
-        // Your code here to register the EncryptionService with deferred configuration
+        // Register the EncryptionService with deferred configuration
+        _services.AddTransient<EncryptionService>(sp =>
+        {
+            var encryptionEngine = sp.GetRequiredService<EncryptionEngine>();
+            var encryptionService = new EncryptionService(encryptionEngine);
+            if (_configureActions.Any())
+            {
+                var options = new EncryptionOptions(encryptionService);
+                foreach (var configureAction in _configureActions)
+                {
+                    configureAction(options);
+                }
+            }
+            return encryptionService;
+        });
     }
 
     public EncryptionBuilder Configure(Action<EncryptionOptions> configure)

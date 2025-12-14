@@ -18,15 +18,21 @@ public static partial class EncryptionObfuscation
             // Configure options if needed
             options.AddObfuscator<ICreditCard, CreditCard>((_, cc) =>
             {
-                //your obfuscation logic here
+                string pattern = @"\b(\d{4}[-\s]?)(\d{4}[-\s]?)(\d{4}[-\s]?)(\d{4})\b";
+                string replacement = "$1**** **** **** $4";
+                cc.Number = Regex.Replace(cc.Number, pattern, replacement);
+
+                cc.ExpirationYear = "**";
+                cc.ExpirationMonth = "**";
 
                 return cc;
             });
             options.AddObfuscator<IEmployee, Employee>((encryptionService, emp) =>
             {
-                //your obfuscation logic here
+                emp.LastName = "***";
+                emp.HireDate = default;
+                emp.Role = WorkRole.Undefined;
 
-                //Example: obfuscate credit cards
                 emp.CreditCards = encryptionService.ObfuscateMany<ICreditCard>(emp.CreditCards).ToList<ICreditCard>();
                 return emp;
             });

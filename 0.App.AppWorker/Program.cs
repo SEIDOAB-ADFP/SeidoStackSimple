@@ -24,11 +24,7 @@ builder.Services.AddEnvironmentInfo();
 builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 builder.Services.AddSeeder().MockMusic().MockLatin().MockQuote().MockEmployee();
 
-builder.Services.AddTransient<EncryptionService>(); //to be replaced by the extension method
-//Example of adding obfuscation for Employee model
-//builder.Services.AddEncryptionService().ObfuscateEmployee();
-
-
+builder.Services.AddEncryptionService().ObfuscateEmployee();
 
 builder.Services.AddTransient<IMusicGroupsService, MusicGroupsServiceWapi>();
 builder.Services.AddTransient<IAlbumsService, AlbumsServiceWapi>();

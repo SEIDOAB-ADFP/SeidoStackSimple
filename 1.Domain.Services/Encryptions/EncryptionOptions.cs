@@ -22,12 +22,13 @@ public class EncryptionOptions
         if (!typeof(TInterface).IsInterface)
             throw new ArgumentException($"Type {typeof(TInterface).Name} must be an interface");
 
-        //Your code here to register the obfuscator and abstract converter
+        _encryptionService._typeObfuscators[typeof(TInterface)] = (encryptionService, source) => obfuscator(encryptionService, (TInterface)source);
+        _encryptionService._abstractConverters.Add(new Configuration.AbstractConverter<TInterface, TInstance>());
     }
 
     public void AddObfuscator<TInstance>(Func<EncryptionService, TInstance, TInstance> obfuscator)
         where TInstance : class, new()
     {
-        //Your code here to register the obfuscator
+        _encryptionService._typeObfuscators[typeof(TInstance)] = (encryptionService, source) => obfuscator(encryptionService, (TInstance)source);
     }
 }

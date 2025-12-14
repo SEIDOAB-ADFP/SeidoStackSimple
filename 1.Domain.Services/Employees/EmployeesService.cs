@@ -41,10 +41,11 @@ public class EmployeeService : IEmployeeService {
             foreach (var c in emp.CreditCards)
             {
                 //using the EncryptionService to test the EncryptAndObfuscate and Decrypt methods
-                //var encryptedCard = _encryptionService.EncryptAndObfuscate<ICreditCard>(c);
-                //var decryptedCard = _encryptionService.Decrypt<ICreditCard>(encryptedCard.encryptedToken);
+                var encryptedCard = _encryptionService.EncryptAndObfuscate<ICreditCard>(c);
+                var decryptedCard = _encryptionService.Decrypt<ICreditCard>(encryptedCard.encryptedToken);
 
-                encryptedCards.Add(((CreditCard)c).EnryptAndObfuscate(_encryptions.AesEncryptToBase64<CreditCard>));
+                encryptedCard.obfuscatedObject.EnryptedToken = encryptedCard.encryptedToken;
+                encryptedCards.Add(encryptedCard.obfuscatedObject);
             }
             emp.CreditCards = encryptedCards;
         }
@@ -81,8 +82,7 @@ public class EmployeeService : IEmployeeService {
             List<ICreditCard> decryptedCards = new List<ICreditCard>();
             foreach (var cc in item.CreditCards)
             {
-                var decrypted = new CreditCard()
-                    .Decrypt(_encryptions.AesDecryptFromBase64<CreditCard>, cc.EnryptedToken);
+                var decrypted = _encryptionService.Decrypt<ICreditCard>(cc.EnryptedToken);
                 decryptedCards.Add(decrypted);
             }
             item.CreditCards = decryptedCards;
