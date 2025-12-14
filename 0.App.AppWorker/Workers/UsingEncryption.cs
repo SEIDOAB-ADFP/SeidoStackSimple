@@ -34,16 +34,6 @@ public class UsingEncryption
         _logger.LogInformation("Same employee with decrypted credit cards: {EmployeeDetails}\n", 
             JsonConvert.SerializeObject(emp, Formatting.Indented));
 
-
-
-        // _logger.LogInformation("Mocked MusicGroup: {MusicGroupName}", mockMusicGroup.Name);
-        // _logger.LogInformation("Mocked Artist: {FirstName}", mockArtist.FirstName);
-        // _logger.LogInformation("Mocked Album: {AlbumName}", mockAlbum.Name);
-
-        // _logger.LogInformation("Mocked Album: {Artists}", string.Join("\r\n", mockArtists.Select(a => a.FirstName).ToList()));
-        // _logger.LogInformation("Mocked Latin Sentences: {Sentences}", string.Join("\r\n", latins.Select(l => l.Sentence).ToList()));
-        // _logger.LogInformation("Mocked Quotes: {Quotes}", string.Join("\r\n", quotes.Select(q => q.Quote).ToList()));
-
         await Task.CompletedTask;
     }
 }

@@ -4,33 +4,40 @@ using Microsoft.Extensions.Logging;
 using Models.DTO;
 using Models.Employees;
 using Models.Employees.Interfaces;
-using Seido.Utilities.SeedGenerator;
+using Newtonsoft.Json;
+using Services.Seeder;
+
 namespace Services.Employees;
 
 
 public class EmployeeService : IEmployeeService {
     private readonly ILogger<EmployeeService> _logger;
     private readonly EncryptionEngine _encryptions;
+    private readonly SeederService _seederService;
     private readonly List<IEmployee> _employees;
-    private readonly SeedGenerator _seeder = new SeedGenerator();
 
-    public EmployeeService(ILogger<EmployeeService> logger, EncryptionEngine encryptions)
+    public EmployeeService(ILogger<EmployeeService> logger, EncryptionEngine encryptions,
+        SeederService seederService)
     {
         _logger = logger;
         _encryptions = encryptions;
+        _seederService = seederService;
 
         _logger.LogInformation("Randomly generating 1000 employees");
-        var employees = _seeder.ItemsToList<Employee>(1000);
 
+        //ToList is needed here to avoid deferred execution
+        var rnd = new Random();
+        var employees = _seederService.MockMany<IEmployee>(1000).ToList();
         foreach (var emp in employees)
         {
-            var cc = _seeder.ItemsToList<CreditCard>(_seeder.Next(0, 4));
+            var cc = _seederService.MockMany<ICreditCard>(rnd.Next(0, 4));
             foreach (var c in cc)
             {
-                emp.CreditCards.Add(c.EnryptAndObfuscate(_encryptions.AesEncryptToBase64<CreditCard>));
+                emp.CreditCards.Add(((CreditCard)c).EnryptAndObfuscate(_encryptions.AesEncryptToBase64<CreditCard>));
             }
         }
-    
+
+        var i = employees.Count(e => e.CreditCards.Count > 0);
         _employees = employees.ToList<IEmployee>();
     }   
 

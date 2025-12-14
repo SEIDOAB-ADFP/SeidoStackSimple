@@ -1,8 +1,7 @@
 ﻿using Models.Music.Interfaces;
-using Seido.Utilities.SeedGenerator;
 
 namespace Models.Music;
-public class Artist : IArtist, ISeed<Artist>
+public class Artist : IArtist
 {
     public virtual Guid ArtistId { get; set; }
 
@@ -22,21 +21,6 @@ public class Artist : IArtist, ISeed<Artist>
         this.FirstName = org.FirstName;
         this.LastName = org.LastName;
         this.BirthDay = org.BirthDay;
-    }
-    #endregion
-
-    #region randomly seed this instance
-    public virtual bool Seeded { get; set; } = false;
-    public virtual Artist Seed(SeedGenerator seedGenerator)
-    {
-        Seeded = true;  
-        ArtistId = Guid.NewGuid();
-
-        FirstName = seedGenerator.FirstName;
-        LastName = seedGenerator.LastName;
-        BirthDay = (seedGenerator.Bool) ? seedGenerator.DateAndTime(1940, 1990) : null;
-
-        return this;
     }
     #endregion
 }

@@ -1,30 +1,29 @@
 using Models;
-using Models.Music;
 using Models.Music.Interfaces;
-using Seido.Utilities.SeedGenerator;
-
+using Services.Seeder;
 
 namespace AppWorker.Workers;
 
 public class UsingSeeder
 {
     private readonly ILogger<UsingSeeder> _logger;
+    private readonly SeederService _seedService;
 
-    public UsingSeeder(ILogger<UsingSeeder> logger)
+    public UsingSeeder(ILogger<UsingSeeder> logger, SeederService seedService)
     {
         _logger = logger;
+        _seedService = seedService;
     }
 
     public async Task ExecuteAsync()
     {
-        var _seeder = new SeedGenerator();
-        var mockMusicGroup = new MusicGroup().Seed(_seeder);
-        var mockAlbum = new Album().Seed(_seeder);
-        var mockArtist = new Artist().Seed(_seeder);
+        var mockMusicGroup = _seedService.Mock<IMusicGroup>();
+        var mockAlbum = _seedService.Mock<IAlbum>();
+        var mockArtist = _seedService.Mock<IArtist>();
 
-        var mockArtists = _seeder.ItemsToList<Artist>(5);
-        var latins = _seeder.ItemsToList<LatinSentence>(5);
-        var quotes = _seeder.ItemsToList<FamousQuote>(5);
+        var mockArtists = _seedService.MockMany<IArtist>(5);
+        var latins = _seedService.MockMany<LatinSentence>(5);
+        var quotes = _seedService.MockMany<FamousQuote>(5);
 
         _logger.LogInformation("Mocked MusicGroup: {MusicGroupName}", mockMusicGroup.Name);
         _logger.LogInformation("Mocked Artist: {FirstName}", mockArtist.FirstName);

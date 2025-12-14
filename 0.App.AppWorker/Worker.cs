@@ -1,6 +1,8 @@
 using Configuration.Options;
 using Microsoft.Extensions.Options;
 using Models;
+using Services;
+using Services.Seeder;
 using AppWorker.Workers;
 using Newtonsoft.Json;
 

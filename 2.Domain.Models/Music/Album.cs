@@ -1,9 +1,8 @@
 ﻿using Models.Music.Interfaces;
-using Seido.Utilities.SeedGenerator;
 
 namespace Models.Music;
 
-public class Album : IAlbum, ISeed<Album>
+public class Album : IAlbum
 {
     public virtual Guid AlbumId { get; set; }
 
@@ -22,21 +21,6 @@ public class Album : IAlbum, ISeed<Album>
         this.Name = org.Name;
         this.ReleaseYear = org.ReleaseYear;
         this.CopiesSold = org.CopiesSold;
-    }
-    #endregion
-
-    #region randomly seed this instance
-    public virtual bool Seeded { get; set; } = false;
-    public virtual Album Seed(SeedGenerator seedGenerator)
-    {
-        Seeded = true;
-        AlbumId = Guid.NewGuid();
-
-        Name = seedGenerator.MusicAlbumName;
-        CopiesSold = seedGenerator.Next(1_000, 1_000_000);
-        ReleaseYear = seedGenerator.Next(1970, 2024);
-
-        return this;
     }
     #endregion
 }

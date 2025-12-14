@@ -1,11 +1,10 @@
 using Configuration;
 using Models.Employees.Interfaces;
 using Newtonsoft.Json;
-using Seido.Utilities.SeedGenerator;
 
 namespace Models.Employees;
 
-public class Employee:IEmployee, ISeed<Employee>
+public class Employee:IEmployee
 {
     public Guid EmployeeId { get; set; }    
     public string FirstName { get; set; }
@@ -27,22 +26,4 @@ public class Employee:IEmployee, ISeed<Employee>
         Role = original.Role;
         CreditCards = original.CreditCards.Select(cc => new CreditCard(cc)).Cast<ICreditCard>().ToList();
     }
-
-    #region randomly seed this instance
-    public bool Seeded { get; set; } = false;
-
-    public virtual Employee Seed (SeedGenerator seeder)
-    {
-        Seeded = true;
-        EmployeeId = Guid.NewGuid();
-        
-        FirstName = seeder.FirstName;
-        LastName = seeder.LastName;
-        HireDate = seeder.DateAndTime(2000, 2024);
-        Role = seeder.FromEnum<WorkRole>();
-
-        return this;
-    }
-    #endregion
-    
 }

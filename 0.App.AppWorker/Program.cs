@@ -1,7 +1,8 @@
 using AppWorker;
 using Configuration.Extensions;
 using Security.Extensions;
-
+using Services.Seeder;
+using AppWorker.Mocking;
 using AppWorker.Workers;
 using Services.Music.Interfaces;
 using Services.Music;
@@ -16,6 +17,8 @@ builder.Services.AddVersionInfo();
 builder.Services.AddEnvironmentInfo();
 
 builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+builder.Services.AddSeeder().MockMusic().MockLatin().MockQuote().MockEmployee();
+
 builder.Services.AddTransient<IMusicGroupsService, MusicGroupsServiceWapi>();
 builder.Services.AddTransient<IAlbumsService, AlbumsServiceWapi>();
 builder.Services.AddTransient<IArtistsService, ArtistsServiceWapi>();

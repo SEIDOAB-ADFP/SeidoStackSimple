@@ -3,11 +3,10 @@ using System.Text.RegularExpressions;
 using Configuration;
 using Models.Employees.Interfaces;
 using Newtonsoft.Json;
-using Seido.Utilities.SeedGenerator;
 
 namespace Models.Employees;
 
-public class CreditCard : ICreditCard, ISeed<CreditCard>
+public class CreditCard : ICreditCard
 {
     public Guid CreditCardId { get; set; }
 
@@ -31,23 +30,6 @@ public class CreditCard : ICreditCard, ISeed<CreditCard>
         ExpirationMonth = original.ExpirationMonth;
         EnryptedToken = original.EnryptedToken;
     }
-
-    #region randomly seed this instance
-    public bool Seeded { get; set; } = false;
-
-    public virtual CreditCard Seed (SeedGenerator seeder)
-    {
-        Seeded = true;
-        CreditCardId = Guid.NewGuid();
-        
-        Issuer = seeder.FromEnum<CardIssuer>();
-
-        Number = $"{seeder.Next(2222, 9999)}-{seeder.Next(2222, 9999)}-{seeder.Next(2222, 9999)}-{seeder.Next(2222, 9999)}";
-        ExpirationYear = $"{seeder.Next(25, 32)}";
-        ExpirationMonth = $"{seeder.Next(01, 13):D2}";
-        return this;
-    }
-    #endregion
 
     //obfuscation is when you hide parts of the data, encryption is when you encode the data
     public CreditCard EnryptAndObfuscate(Func<CreditCard, string> encryptor)

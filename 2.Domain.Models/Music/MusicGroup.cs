@@ -1,9 +1,8 @@
 ﻿using Models.Music.Interfaces;
-using Seido.Utilities.SeedGenerator;
 
 namespace Models.Music;
 
-public class MusicGroup : IMusicGroup, ISeed<MusicGroup>
+public class MusicGroup : IMusicGroup
 {
     public virtual Guid MusicGroupId { get; set; }
     public virtual string Name { get; set; }
@@ -24,20 +23,6 @@ public class MusicGroup : IMusicGroup, ISeed<MusicGroup>
         Name = org.Name;
         EstablishedYear = org.EstablishedYear;
         Genre = org.Genre;
-    }
-    #endregion
-
-        #region randomly seed this instance
-    public virtual bool Seeded { get; set; } = false;
-    public virtual MusicGroup Seed(SeedGenerator seedGenerator)
-    {
-        Seeded = true;
-        MusicGroupId = Guid.NewGuid();
-
-        Name = seedGenerator.MusicGroupName;
-        EstablishedYear = seedGenerator.Next(1970, 2024);
-        Genre = seedGenerator.FromEnum<MusicGenre>();
-        return this;
     }
     #endregion
 }
