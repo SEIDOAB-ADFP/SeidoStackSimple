@@ -14,13 +14,16 @@ public class Worker : BackgroundService
     private readonly UsingSeeder _usingSeeder;
     private readonly UsingWebApi _usingWebApi;
     private readonly UsingEncryption _usingEncryption;
+    private readonly UsingPoker _usingPoker;
     private readonly VersionOptions _versionOptions;
     private readonly EnvironmentOptions _environmentOptions;
     private readonly IHostApplicationLifetime _hostLifetime;
     private readonly string _workerMode;
 
     public Worker(ILogger<Worker> logger, 
-            UsingSeeder usingSeeder, UsingWebApi usingWebApi, UsingEncryption usingEncryption,
+            UsingSeeder usingSeeder, UsingWebApi usingWebApi,
+            UsingEncryption usingEncryption,
+            UsingPoker usingPoker,  
             string workerMode,
 
             IHostApplicationLifetime hostLifetime, 
@@ -31,6 +34,7 @@ public class Worker : BackgroundService
         _usingSeeder = usingSeeder;
         _usingWebApi = usingWebApi;
         _usingEncryption = usingEncryption;
+        _usingPoker = usingPoker;
         _workerMode = workerMode;
         _versionOptions = versionOptions.Value;
         _environmentOptions = environmentOptions.Value;
@@ -41,12 +45,13 @@ public class Worker : BackgroundService
     {
         _logger.LogInformation("Version: {Version}\n", Newtonsoft.Json.JsonConvert.SerializeObject(_versionOptions, Formatting.Indented));
         _logger.LogInformation("Environment: {Environment}\n", Newtonsoft.Json.JsonConvert.SerializeObject(_environmentOptions, Formatting.Indented));
-        
+         
         await (_workerMode.ToLower() switch
         {
             "seeder" => _usingSeeder.ExecuteAsync(),
             "webapi" => _usingWebApi.ExecuteAsync(),
-            "encryption" =>  _usingEncryption.ExecuteAsync(),
+            "encryption" => _usingEncryption.ExecuteAsync(),    
+            "poker" => _usingPoker.ExecuteAsync(),
             _ => throw new ArgumentException($"Unknown worker mode: {_workerMode}")
         });
 

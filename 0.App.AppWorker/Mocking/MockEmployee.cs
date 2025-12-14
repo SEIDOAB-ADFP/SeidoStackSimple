@@ -15,7 +15,7 @@ public static partial class SeederMocking
     {       
         seedBuilder.Configure(options =>
         {
-            options.AddMocker<IEmployee,Employee>((seeder, employee) =>
+            options.AddMocker<IEmployee, Employee>((seeder, employee) =>
             {
                 employee.EmployeeId = Guid.NewGuid();
                 
@@ -25,7 +25,7 @@ public static partial class SeederMocking
                 employee.Role = seeder.FromEnum<WorkRole>();
                 return employee;
             });
-            options.AddMocker<ICreditCard,CreditCard>((seeder, cc) =>
+            options.AddMocker<ICreditCard, CreditCard>((seeder, cc) =>
             {
                 cc.CreditCardId = Guid.NewGuid();
                

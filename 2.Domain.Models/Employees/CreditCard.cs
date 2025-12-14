@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Configuration;
 using Models.Employees.Interfaces;
@@ -28,5 +29,29 @@ public class CreditCard : ICreditCard
         ExpirationYear = original.ExpirationYear;
         ExpirationMonth = original.ExpirationMonth;
         EnryptedToken = original.EnryptedToken;
+    }
+
+    //obfuscation is when you hide parts of the data, encryption is when you encode the data
+    public CreditCard EnryptAndObfuscate(Func<CreditCard, string> encryptor)
+    {
+        this.EnryptedToken = encryptor(this);
+
+        string pattern = @"\b(\d{4}[-\s]?)(\d{4}[-\s]?)(\d{4}[-\s]?)(\d{4})\b";
+        string replacement = "$1**** **** **** $4";
+        this.Number = Regex.Replace(Number, pattern, replacement);
+
+        this.ExpirationYear = "**";
+        this.ExpirationMonth = "**";
+
+        return this;
+    }
+
+    public ICreditCard Decrypt(Func<string, JsonSerializerSettings, ICreditCard> decryptor, string encryptedToken)
+    {
+        return decryptor(encryptedToken, new JsonSerializerSettings
+        {
+            Converters = {
+                new Configuration.AbstractConverter<ICreditCard, CreditCard>()}
+        });
     }
 }

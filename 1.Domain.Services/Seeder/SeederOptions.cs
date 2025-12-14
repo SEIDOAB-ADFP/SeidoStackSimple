@@ -17,7 +17,7 @@ public class SeederOptions
 
     public void AddMocker<TInterface, TInstance>(Func<SeedGenerator, TInstance, TInstance> mocker)
         where TInterface : class
-        where TInstance : TInterface, new()
+        where TInstance : new()
     {
         if (!typeof(TInterface).IsInterface)
             throw new ArgumentException($"Type {typeof(TInterface).Name} must be an interface");
@@ -27,6 +27,9 @@ public class SeederOptions
     public void AddMocker<TInstance>(Func<SeedGenerator, TInstance, TInstance> mocker)
         where TInstance : new()
     {
+        if (!typeof(TInstance).IsClass)
+            throw new ArgumentException($"Type {typeof(TInstance).Name} must be a class");
+
         _seedService._typeMockers[typeof(TInstance)] = (seeder) => mocker(seeder, new TInstance());
     }
 }

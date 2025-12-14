@@ -20,20 +20,13 @@ public class UsingWebApi
 
     public async Task ExecuteAsync()
     {
-        try
-        {
-            var musicgroups = await _musicGroupsService.ReadMusicGroupsAsync(true, false, null, 1, 10);
-            var albums = await _albumsService.ReadAlbumsAsync(true, false, null, 1, 10);
-            var artists = await _artistsService.ReadArtistsAsync(true, false, null, 1, 10);
+        var musicgroups = await _musicGroupsService.ReadMusicGroupsAsync(true, false, null, 1, 10);
+        var albums = await _albumsService.ReadAlbumsAsync(true, false, null, 1, 10);
+        var artists = await _artistsService.ReadArtistsAsync(true, false, null, 1, 10);
 
-            _logger.LogInformation("Musicgroups: {Musicgroups}", string.Join("\r\n", musicgroups.PageItems.Select(a => a.Name).ToList()));
-            _logger.LogInformation("Albums: {Albums}", string.Join("\r\n", albums.PageItems.Select(a => a.Name).ToList()));
-            _logger.LogInformation("Artists: {Artists}", string.Join("\r\n", artists.PageItems.Select(a => a.FirstName + " " + a.LastName).ToList()));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred in UsingWebApi");
-        }
+        _logger.LogInformation("Musicgroups: {Musicgroups}", string.Join("\r\n", musicgroups.PageItems.Select(a => a.Name).ToList()));
+        _logger.LogInformation("Albums: {Albums}", string.Join("\r\n", albums.PageItems.Select(a => a.Name).ToList()));
+        _logger.LogInformation("Artists: {Artists}", string.Join("\r\n", artists.PageItems.Select(a => a.FirstName + " " + a.LastName).ToList()));
         await Task.CompletedTask;
     }
 }
