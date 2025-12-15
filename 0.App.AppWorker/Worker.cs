@@ -14,6 +14,7 @@ public class Worker : BackgroundService
     private readonly UsingSeeder _usingSeeder;
     private readonly UsingWebApi _usingWebApi;
     private readonly UsingEncryption _usingEncryption;
+    private readonly UsingGreetings _usingGreetings; 
     private readonly VersionOptions _versionOptions;
     private readonly EnvironmentOptions _environmentOptions;
     private readonly IHostApplicationLifetime _hostLifetime;
@@ -21,7 +22,7 @@ public class Worker : BackgroundService
 
     public Worker(ILogger<Worker> logger, 
             UsingSeeder usingSeeder, UsingWebApi usingWebApi, UsingEncryption usingEncryption,
-            string workerMode,
+            UsingGreetings usingGreetings, string workerMode,
 
             IHostApplicationLifetime hostLifetime, 
             IOptions<VersionOptions> versionOptions,
@@ -31,6 +32,8 @@ public class Worker : BackgroundService
         _usingSeeder = usingSeeder;
         _usingWebApi = usingWebApi;
         _usingEncryption = usingEncryption;
+        _usingGreetings = usingGreetings;
+
         _workerMode = workerMode;
         _versionOptions = versionOptions.Value;
         _environmentOptions = environmentOptions.Value;
@@ -47,6 +50,7 @@ public class Worker : BackgroundService
             "seeder" => _usingSeeder.ExecuteAsync(),
             "webapi" => _usingWebApi.ExecuteAsync(),
             "encryption" =>  _usingEncryption.ExecuteAsync(),
+            "greetings" =>  _usingGreetings.ExecuteAsync(),
             _ => throw new ArgumentException($"Unknown worker mode: {_workerMode}")
         });
 
